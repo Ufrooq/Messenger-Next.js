@@ -7,9 +7,11 @@ const ProtectedLayout = ({
     children: React.ReactNode;
 }>) => {
     return (
-        <div className='w-full h-[100vh] flex'>
+        <div className='w-full h-[100vh] flex gap-4'>
             <Sidebar />
-            {children}
+            <div className='w-full h-full p-4'>
+                {children}
+            </div>
         </div>
     )
 }
