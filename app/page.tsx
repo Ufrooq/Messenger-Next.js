@@ -1,14 +1,19 @@
-import { Button } from "@/components/ui/button";
+"use client"
+import useAuth from "@/hooks/useAuth";
+import { redirect } from "next/navigation";
+
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="p-4 rounded-xl border-2 border-orange-400 bg-orange-100 ">
-        <h1 className="">Welcome</h1>
-        <Button>
-          Sumbit
-        </Button>
-      </div>
-    </main>
-  );
+
+  const { user, isLoading } = useAuth();
+  if (isLoading) {
+    return (
+      <h1>Loading....</h1>
+    )
+  }
+  if (user) {
+    redirect("/dashboard")
+  } else {
+    redirect("/login")
+  }
 }

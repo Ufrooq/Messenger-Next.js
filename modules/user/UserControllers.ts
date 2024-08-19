@@ -1,5 +1,7 @@
+import { onAuthStateChanged, User } from "firebase/auth";
 import { UserDbServices } from "./UserDbServices";
 import { v4 } from "uuid";
+import { auth } from "@/config/firebaseConfig";
 
 export class UserControllers {
     private static instance: UserControllers;
@@ -17,11 +19,12 @@ export class UserControllers {
     }
 
 
-    public async addUserFun(data: string) {
+
+
+    public async addUserFun(data: IUser) {
         try {
-            // const response = UserDbServices.getInstance().addUser(data)
-            console.log(data)
-            // return response;
+            const response = UserDbServices.getInstance().addUser(data)
+            return response;
         } catch (error) {
             throw error;
         }
@@ -38,4 +41,13 @@ export class UserControllers {
             throw error;
         }
     }
+
+    public isUserSignedIn(): Promise<User | null> {
+        return new Promise((resolve) => {
+            onAuthStateChanged(auth, (user) => {
+                resolve(user);
+            });
+        });
+    }
+
 }

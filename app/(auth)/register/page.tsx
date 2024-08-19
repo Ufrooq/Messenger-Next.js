@@ -42,16 +42,22 @@ const Register = () => {
             toast.error("Please fill the required fields !")
             return
         }
+        const data: IUser = {
+            displayName: name,
+            email: email,
+            password: passowrd,
+            photoURL: uploadedImage
+        }
         setIsLoading(true);
+        await UserControllers.getInstance().addUserFun(data);
+        setIsLoading(false);
         try {
 
         } catch (error: any) {
             console.log(error)
             toast.error(error);
         }
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000)
+
     }
     return (
         <Card>

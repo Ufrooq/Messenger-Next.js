@@ -1,7 +1,8 @@
-import { database, fireStorage } from "@/config/firebaseConfig";
+import { auth, database, fireStorage } from "@/config/firebaseConfig";
 import { addDoc, collection, CollectionReference } from "firebase/firestore";
 import { DB_COLLECTIONS } from "../../config/constants";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { signInWithEmailAndPassword, User, UserCredential } from "firebase/auth";
 
 export class UserDbServices {
     private static instance: UserDbServices;
@@ -21,7 +22,12 @@ export class UserDbServices {
 
     public async addUser(data: IUser) {
         try {
-            return await addDoc(this.userColllection, data);
+            const userCredentials: UserCredential = await signInWithEmailAndPassword(auth, data.email, data.password!);
+            const userId = userCredentials.user.uid;
+            return await addDoc(this.userColllection, {
+                userId: userId,
+                ...data
+            });
         } catch (error) {
             throw error;
         }

@@ -1,6 +1,18 @@
-interface IUser {
-    name: string,
+interface IUserDefault {
+    displayName: string,
     email: string,
-    password: string,
-    userImg?: string
+    password?: string,
+    photoURL?: string | null
+}
+interface IUser {
+    displayName: string,
+    email: string,
+    password?: string,
+    photoURL?: string | null;
+}
+interface IUserResponse {
+    id?: string
+    displayName: string,
+    email: string,
+    photoURL?: string
 }
