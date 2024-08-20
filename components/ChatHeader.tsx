@@ -10,7 +10,7 @@ export const ChatHeader = () => {
                     <AvatarFallback>OM</AvatarFallback>
                 </Avatar>
                 <div>
-                    <p className="text-md font-medium leading-none">Sofia Davis</p>
+                    <p className="text-md font-medium leading-none">Umar Farooq</p>
                     <p className="text-md text-muted-foreground">m@example.com</p>
                 </div>
             </div>

@@ -35,18 +35,18 @@ export const Sidebar = () => {
                     <span className='text-slate-500 text-sm'>Overview</span>
                 </div>
                 <div className='space-y-3'>
-                    <button className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition '>
+                    <Link href="/dashboard/add-friend" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition '>
                         <span className='border-2 border-slate-100 p-[5px] rounded-[12px]'>
                             <Image src="/user-plus-solid (1).svg" alt='direact-icon' width={24} height={24} className='opacity-65' />
                         </span>
                         Add Friend
-                    </button>
-                    <button className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
+                    </Link>
+                    <Link href="/dashboard/requests" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
                         <span className='border-2 border-slate-100 p-[5px] rounded-[12px]'>
                             <Image src="/person-circle-question-solid.svg" alt='direact-icon' width={24} height={24} className='opacity-65' />
                         </span>
                         Friend Request
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="flex items-center space-x-4 rounded-lg px-3 py-2 bg-slate-200 mt-auto mb-4">

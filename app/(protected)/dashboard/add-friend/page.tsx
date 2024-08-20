@@ -27,7 +27,7 @@ const AddFriend = () => {
         <div className='mt-8 space-y-4'>
             <h1 className='text-5xl font-bold'>Add Friend</h1>
             <div className="w-full max-w-sm items-center space-y-4">
-                <h1>Add friend by Email</h1>
+                <p className='text-md'>Add friend by Email</p>
                 <form onSubmit={handleSumbit} className='space-y-4'>
                     <Input onChange={(e: any) => setEmail(e.target.value)} type="email" placeholder="Email" />
                     <Button type="submit">
