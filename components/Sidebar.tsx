@@ -18,15 +18,15 @@ export const Sidebar = () => {
                     <span className='text-slate-500 text-sm'>Your chats</span>
                 </div>
                 <div className='space-y-2'>
-                    <button className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
+                    <Link href="/dashboard/chat/1" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
                         Umar Admin
-                    </button>
-                    <button className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
+                    </Link>
+                    <Link href="/dashboard/chat/2" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
                         Ali Admin
-                    </button>
-                    <button className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
+                    </Link>
+                    <Link href="/dashboard/chat/3" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
                         Junaid Ali
-                    </button>
+                    </Link>
 
                 </div>
             </div>
