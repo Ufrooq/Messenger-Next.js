@@ -4,7 +4,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { UserControllers } from '@/modules/user/UserControllers'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -12,6 +14,7 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [passowrd, setPassowrd] = useState('');
+    const router = useRouter();
 
 
 
@@ -23,9 +26,25 @@ const Login = () => {
             return
         }
         setIsLoading(true);
-        setTimeout(() => {
+        const response = await UserControllers.getInstance().continueWithGoogle();
+        if (response?.user) {
             setIsLoading(false);
-        }, 3000)
+            toast.success("Login Successfull");
+            router.push("/dashboard")
+        }
+    }
+
+    async function continueWithGoogle() {
+        try {
+            const response = await UserControllers.getInstance().continueWithGoogle();
+            if (response?.user) {
+                setIsLoading(false);
+                toast.success("Login Successfull");
+                router.push("/dashboard")
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
     return (
         <Card>
@@ -38,9 +57,9 @@ const Login = () => {
                 </CardHeader>
                 <CardContent className="grid gap-4">
                     <div className="grid gap-6">
-                        <Button variant="outline" className='text-red-500 border-red-500 hover:bg-red-100 hover:text-red-500'>
+                        <Button onClick={continueWithGoogle} variant="outline" className='text-red-500 border-red-500 hover:bg-red-100 hover:text-red-500'>
                             {isLoading ?
-                                <Loader color='red-500' />
+                                <Loader />
                                 :
                                 <>
                                     <Image src='/google.svg' alt='google' width={20} height={20} />
@@ -71,7 +90,7 @@ const Login = () => {
                 </CardContent>
                 <CardFooter>
                     <Button className="w-full" type='submit'>
-                        {isLoading ? <Loader color='white' /> : "Login"}
+                        {isLoading ? <Loader /> : "Login"}
                     </Button>
                 </CardFooter>
             </form>
