@@ -9,7 +9,7 @@ const ProtectedLayout = ({
     return (
         <div className='w-full h-[100vh] flex gap-4'>
             <Sidebar />
-            <div className='w-full h-full p-4'>
+            <div className='w-full h-full flex justify-start p-4'>
                 {children}
             </div>
         </div>

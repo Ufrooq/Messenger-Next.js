@@ -1,12 +1,31 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Separator } from './ui/separator'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { Avatar, AvatarImage } from './ui/avatar'
+import useAuth from '@/hooks/useAuth'
+import Loader from './Loader'
+import { toast } from 'sonner'
+import { signOut } from 'firebase/auth'
+import { auth } from '@/config/firebaseConfig'
+import { useRouter } from 'next/navigation'
 
 export const Sidebar = () => {
+    const { user, isLoading } = useAuth();
+    const router = useRouter()
+
+    async function handleLogout() {
+        try {
+            await signOut(auth)
+            toast.success('Logged out successfully')
+            router.push("/login")
+        } catch (error) {
+            toast.error("error while loggingout")
+        }
+    }
     return (
-        <div className='w-[420px] pl-6 pt-6 pe-4  border border-e-slate-200 flex flex-col'>
+        <div className='w-[440px] pl-6 pt-6 pe-4  border border-e-slate-200 flex flex-col'>
             <div className='max-w-[100px]'>
                 <Link href='/dashboard'>
                     <Image src="/direct-message.svg" alt='direact-icon' className='rotate-45' width={72} height={72} />
@@ -49,23 +68,28 @@ export const Sidebar = () => {
                     </Link>
                 </div>
             </div>
-            <div className="flex items-center space-x-4 rounded-lg px-3 py-2 bg-slate-200 mt-auto mb-4">
-                <Avatar className="h-12 w-12">
-                    <AvatarImage src="/avatars/01.png" alt="Image" />
-                    <AvatarFallback>OM</AvatarFallback>
-                </Avatar>
-                <div className='cursor-pointer'>
-                    <p className="text-sm font-medium leading-none">Umar Farooq</p>
-                    <p className="text-sm text-muted-foreground">umar12@gmail.com</p>
-                </div>
-                <div className='pl-4'>
-                    <Image
-                        src="/right-from-bracket-solid.svg"
-                        alt='direact-icon'
-                        width={24} height={24}
-                        className='opacity-85 cursor-pointer' />
-                </div>
+            <div className="flex min-h-[70px] justify-center items-center space-x-4 rounded-lg px-3 py-2 bg-slate-200 mt-auto mb-4">
+                {isLoading ?
+                    <Loader />
+                    :
+                    <>
+                        <Avatar className='bg-black rounded-full w-10 h-10 overflow-hidden'>
+                            <AvatarImage className='h-full' src={user?.photoURL!} />
+                        </Avatar>
+                        <div className='cursor-pointer'>
+                            <p className="text-md font-bold text-slate-700 leading-none">{user?.displayName}</p>
+                            <p className="text-sm text-slate-600">{user?.email}</p>
+                        </div>
+                        <button onClick={handleLogout} className='pl-4'>
+                            <Image
+                                src="/right-from-bracket-solid.svg"
+                                alt='direact-icon'
+                                width={24} height={24}
+                                className='opacity-85 cursor-pointer'
+                            />
+                        </button>
+                    </>}
             </div>
-        </div>
+        </div >
     )
 }
