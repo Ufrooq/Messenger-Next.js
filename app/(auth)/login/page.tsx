@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { UserControllers } from '@/modules/user/UserControllers'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -26,7 +26,11 @@ const Login = () => {
             return
         }
         setIsLoading(true);
-        const response = await UserControllers.getInstance().continueWithGoogle();
+        const data: ILoginData = {
+            email: email,
+            password: passowrd
+        }
+        const response = await UserControllers.getInstance().loginUser(data);
         if (response?.user) {
             setIsLoading(false);
             toast.success("Login Successfull");
@@ -40,7 +44,7 @@ const Login = () => {
             if (response?.user) {
                 setIsLoading(false);
                 toast.success("Login Successfull");
-                router.push("/dashboard")
+                redirect("/dashboard")
             }
         } catch (error) {
             console.log(error)
@@ -48,36 +52,36 @@ const Login = () => {
     }
     return (
         <Card>
-            <form onSubmit={handleSubmit}>
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl">Login into account</CardTitle>
-                    <CardDescription>
-                        Enter your credentials below or continue with google
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                    <div className="grid gap-6">
-                        <Button onClick={continueWithGoogle} variant="outline" className='text-red-500 border-red-500 hover:bg-red-100 hover:text-red-500'>
-                            {isLoading ?
-                                <Loader />
-                                :
-                                <>
-                                    <Image src='/google.svg' alt='google' width={20} height={20} />
-                                    Continue with Google
-                                </>
-                            }
-                        </Button>
+            <CardHeader className="space-y-1">
+                <CardTitle className="text-2xl">Login into account</CardTitle>
+                <CardDescription>
+                    Enter your credentials below or continue with google
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+                <div className="grid gap-6">
+                    <Button onClick={continueWithGoogle} variant="outline" className='text-red-500 border-red-500 hover:bg-red-100 hover:text-red-500'>
+                        {isLoading ?
+                            <Loader />
+                            :
+                            <>
+                                <Image src='/google.svg' alt='google' width={20} height={20} />
+                                Continue with Google
+                            </>
+                        }
+                    </Button>
+                </div>
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
                     </div>
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center">
-                            <span className="w-full border-t" />
-                        </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-background px-2 text-muted-foreground">
-                                Or continue with
-                            </span>
-                        </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-2 text-muted-foreground">
+                            Or continue with
+                        </span>
                     </div>
+                </div>
+                <form onSubmit={handleSubmit} className='grid gap-4'>
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
                         <Input id="email" type="email" placeholder="m@example.com" onChange={(e: any) => setEmail(e.target.value)} />
@@ -86,14 +90,11 @@ const Login = () => {
                         <Label htmlFor="password">Password</Label>
                         <Input id="password" type="password" onChange={(e: any) => setPassowrd(e.target.value)} />
                     </div>
-
-                </CardContent>
-                <CardFooter>
-                    <Button className="w-full" type='submit'>
+                    <Button className="mt-2 grid gap-2" type='submit'>
                         {isLoading ? <Loader /> : "Login"}
                     </Button>
-                </CardFooter>
-            </form>
+                </form>
+            </CardContent>
         </Card>
     )
 }

@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { Separator } from './ui/separator'
 import { Avatar, AvatarImage } from './ui/avatar'
 import useAuth from '@/hooks/useAuth'
@@ -14,9 +14,12 @@ import { useRouter } from 'next/navigation'
 export const Sidebar = () => {
     const { user, isLoading, currentUserData } = useAuth();
     const router = useRouter()
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
     async function handleLogout() {
+        setIsLoggingOut(true);
         try {
             await signOut(auth)
+            setIsLoggingOut(false)
             toast.success('Logged out successfully')
             router.push("/login")
         } catch (error) {
@@ -69,7 +72,7 @@ export const Sidebar = () => {
                 </div>
             </div>
             <div className="flex min-h-[70px] justify-center items-center space-x-4 rounded-lg px-3 py-2 bg-slate-200 mt-auto mb-4">
-                {isLoading ?
+                {isLoading || isLoggingOut ?
                     <Loader />
                     :
                     <>
@@ -88,7 +91,8 @@ export const Sidebar = () => {
                                 className='opacity-85 cursor-pointer'
                             />
                         </button>
-                    </>}
+                    </>
+                }
             </div>
         </div >
     )

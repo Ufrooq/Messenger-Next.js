@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signInWithPopup, User } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, User } from "firebase/auth";
 import { UserDbServices } from "./UserDbServices";
 import { v4 } from "uuid";
 import { auth, googleProvider } from "@/config/firebaseConfig";
@@ -22,6 +22,15 @@ export class UserControllers {
     public async continueWithGoogle() {
         try {
             const response = await signInWithPopup(auth, googleProvider);
+            return response;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    public async loginUser(data: ILoginData) {
+        try {
+            const response = await signInWithEmailAndPassword(auth, data.email, data.password)
             return response;
         } catch (error) {
             console.log(error)

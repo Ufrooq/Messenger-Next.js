@@ -16,3 +16,8 @@ interface IUserResponse {
     email: string,
     photoURL?: string
 }
+
+interface ILoginData {
+    email: string,
+    password: string
+}

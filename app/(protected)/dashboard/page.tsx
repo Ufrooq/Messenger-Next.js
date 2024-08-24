@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Dashboard = () => {
+
     return (
         <main className='w-full h-full'>
             <div className='mt-8 space-y-4'>
