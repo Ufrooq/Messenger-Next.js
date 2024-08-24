@@ -1,22 +1,29 @@
 "use client"
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import useAuth from '@/hooks/useAuth';
+import { RequestControllers } from '@/modules/requests/Requestcontrollers';
+import { UserControllers } from '@/modules/user/UserControllers';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import React, { useState } from 'react'
 import { toast } from 'sonner';
 
 const AddFriend = () => {
-    const [email, setEmail] = useState("")
+    const [recieverEmail, setRecieverEmail] = useState("")
     const [isAdding, setIsAdding] = useState(false)
+    const { user } = useAuth()
 
 
     async function handleSumbit(e: any) {
         e.preventDefault();
         setIsAdding(true)
         try {
-            setTimeout(() => {
-                setIsAdding(false);
-                toast.success(email);
-            }, 3000)
+            if (!user?.uid) return;
+            const senderId: string = (await UserControllers.getInstance().getCurrentUser(user?.uid)).id;
+            const response = await RequestControllers.getInstance().sendRequest(senderId, recieverEmail)
+            console.log(response);
+            setIsAdding(false);
+            toast.success(recieverEmail);
         } catch (error) {
             setIsAdding(false)
             console.log(error)
@@ -29,7 +36,7 @@ const AddFriend = () => {
             <div className="w-full max-w-sm items-center space-y-4">
                 <p className='text-md'>Add friend by Email</p>
                 <form onSubmit={handleSumbit} className='space-y-4'>
-                    <Input onChange={(e: any) => setEmail(e.target.value)} type="email" placeholder="Email" />
+                    <Input onChange={(e: any) => setRecieverEmail(e.target.value)} type="email" placeholder="Email" />
                     <Button type="submit">
                         {isAdding ?
                             "Adding..." :

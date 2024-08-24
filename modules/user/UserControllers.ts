@@ -39,6 +39,14 @@ export class UserControllers {
         }
     }
 
+    public async getCurrentUser(uid: string) {
+        try {
+            return await UserDbServices.getInstance().getCurrentUser(uid);
+        } catch (error) {
+            throw error
+        }
+    }
+
 
     public async uploadImage(image: File): Promise<string> {
         try {

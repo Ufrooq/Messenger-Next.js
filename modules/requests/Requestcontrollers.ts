@@ -16,9 +16,10 @@ export class RequestControllers {
         return RequestControllers.instance
     }
 
-    public async sendRequest() {
+    public async sendRequest(senderId: string, receiverEmail: string) {
         try {
-            this.requestDbServices.sendRequest()
+            const reciever: any = await RequestDbServices.getInstance().getReciever(receiverEmail);
+            return this.requestDbServices.sendRequest(senderId, reciever);
         } catch (error) {
             console.log(error)
             return error;

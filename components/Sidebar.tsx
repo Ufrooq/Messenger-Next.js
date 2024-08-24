@@ -12,9 +12,8 @@ import { auth } from '@/config/firebaseConfig'
 import { useRouter } from 'next/navigation'
 
 export const Sidebar = () => {
-    const { user, isLoading } = useAuth();
+    const { user, isLoading, currentUserData } = useAuth();
     const router = useRouter()
-
     async function handleLogout() {
         try {
             await signOut(auth)
@@ -24,6 +23,7 @@ export const Sidebar = () => {
             toast.error("error while loggingout")
         }
     }
+
     return (
         <div className='w-[440px] pl-6 pt-6 pe-4  border border-e-slate-200 flex flex-col'>
             <div className='max-w-[100px]'>
@@ -74,11 +74,11 @@ export const Sidebar = () => {
                     :
                     <>
                         <Avatar className='bg-black rounded-full w-10 h-10 overflow-hidden'>
-                            <AvatarImage className='h-full' src={user?.photoURL!} />
+                            <AvatarImage className='h-full' src={user?.photoURL || currentUserData?.photoURL} />
                         </Avatar>
                         <div className='cursor-pointer'>
-                            <p className="text-md font-bold text-slate-700 leading-none">{user?.displayName}</p>
-                            <p className="text-sm text-slate-600">{user?.email}</p>
+                            <p className="text-md font-bold text-slate-700 leading-none">{user?.displayName || currentUserData?.displayName}</p>
+                            <p className="text-sm text-slate-600">{user?.email || currentUserData?.email}</p>
                         </div>
                         <button onClick={handleLogout} className='pl-4'>
                             <Image

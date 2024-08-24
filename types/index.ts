@@ -7,8 +7,8 @@ interface IUserDefault {
 interface IUser {
     displayName: string,
     email: string,
-    password?: string,
-    photoURL?: string | null;
+    password: string,
+    photoURL: string | null;
 }
 interface IUserResponse {
     id?: string

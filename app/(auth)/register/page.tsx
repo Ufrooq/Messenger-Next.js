@@ -45,16 +45,16 @@ const Register = () => {
         const data: IUser = {
             displayName: name,
             email: email,
-            password: passowrd,
-            photoURL: uploadedImage
+            photoURL: uploadedImage,
+            password: passowrd
         }
         setIsLoading(true);
-        await UserControllers.getInstance().addUserFun(data);
-        setIsLoading(false);
         try {
-
+            await UserControllers.getInstance().addUserFun(data);
+            setIsLoading(false);
         } catch (error: any) {
             console.log(error)
+            setIsLoading(false);
             toast.error(error);
         }
 
