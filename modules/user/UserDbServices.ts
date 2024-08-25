@@ -3,6 +3,7 @@ import { addDoc, collection, CollectionReference, DocumentData, getDocs, query, 
 import { DB_COLLECTIONS } from "../../config/constants";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, User, UserCredential } from "firebase/auth";
+import { IUser } from "@/types";
 
 export class UserDbServices {
     private static instance: UserDbServices;

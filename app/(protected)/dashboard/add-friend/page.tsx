@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 const AddFriend = () => {
     const [recieverEmail, setRecieverEmail] = useState("")
     const [isAdding, setIsAdding] = useState(false)
-    const { user } = useAuth()
+    const { user, currentUserData } = useAuth()
 
 
     async function handleSumbit(e: any) {
@@ -19,11 +19,12 @@ const AddFriend = () => {
         setIsAdding(true)
         try {
             if (!user?.uid) return;
-            const senderId: string = (await UserControllers.getInstance().getCurrentUser(user?.uid)).id;
-            const response = await RequestControllers.getInstance().sendRequest(senderId, recieverEmail)
-            console.log(response);
+            const response = await RequestControllers.getInstance().sendRequest(currentUserData?.userId!, recieverEmail)
+            if (response) {
+                setRecieverEmail("")
+                toast.success(recieverEmail);
+            }
             setIsAdding(false);
-            toast.success(recieverEmail);
         } catch (error) {
             setIsAdding(false)
             console.log(error)

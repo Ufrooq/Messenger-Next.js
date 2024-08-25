@@ -2,6 +2,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, User }
 import { UserDbServices } from "./UserDbServices";
 import { v4 } from "uuid";
 import { auth, googleProvider } from "@/config/firebaseConfig";
+import { ILoginData, IUser } from "@/types";
 
 export class UserControllers {
     private static instance: UserControllers;

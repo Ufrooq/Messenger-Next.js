@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { UserControllers } from '@/modules/user/UserControllers'
+import { IUser } from '@/types'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -140,10 +142,13 @@ const Register = () => {
                         <Input id="password" type="password" onChange={(e: any) => setPassowrd(e.target.value)} />
                     </div>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className='flex flex-col'>
                     <Button className="w-full" type='submit'>
                         {isLoading ? <Loader /> : "Create account"}
                     </Button>
+                    <p className='text-center text-sm mt-4'>
+                        Already have an account? <Link href="/login" className='font-bold'>Login</Link>
+                    </p>
                 </CardFooter>
             </form>
         </Card>

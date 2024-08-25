@@ -1,3 +1,4 @@
+import { IUserResponse } from "@/types";
 import { RequestDbServices } from "./RequestDbServices";
 
 export class RequestControllers {
@@ -18,12 +19,22 @@ export class RequestControllers {
 
     public async sendRequest(senderId: string, receiverEmail: string) {
         try {
-            const reciever: any = await RequestDbServices.getInstance().getReciever(receiverEmail);
-            return this.requestDbServices.sendRequest(senderId, reciever);
+            const reciever = ((await RequestDbServices.getInstance().getReciever(receiverEmail)).data()) as IUserResponse;
+            return this.requestDbServices.sendRequest(senderId, reciever.userId);
         } catch (error) {
             console.log(error)
             return error;
         }
     }
+
+    public async requestListner(currentUserId: string) {
+        try {
+            const requests: any = await RequestDbServices.getInstance().getRequestsByCurrentUserId(currentUserId);
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
+
 
 }

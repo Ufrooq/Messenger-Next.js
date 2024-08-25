@@ -11,7 +11,6 @@ const ProtectedLayout = ({
 }>) => {
 
     const { user, isLoading } = useAuth()
-    console.log(user)
     useEffect(() => {
         if (!user && !isLoading) {
             redirect('/login')

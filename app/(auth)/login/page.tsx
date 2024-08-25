@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { UserControllers } from '@/modules/user/UserControllers'
+import { ILoginData } from '@/types'
 import Image from 'next/image'
+import Link from 'next/link'
 import { redirect, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
@@ -93,6 +95,9 @@ const Login = () => {
                     <Button className="mt-2 grid gap-2" type='submit'>
                         {isLoading ? <Loader /> : "Login"}
                     </Button>
+                    <p className='text-center text-sm'>
+                        Don't have an account? <Link href="/register" className='font-bold'>Register</Link>
+                    </p>
                 </form>
             </CardContent>
         </Card>

@@ -1,28 +1,35 @@
+'use client'
 import { DB_COLLECTIONS, FriendRequestStatus } from '@/config/constants';
 import { database } from '@/config/firebaseConfig';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { IRequestResponse } from '@/types';
+import { collection, DocumentData, onSnapshot, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
+import useAuth from './useAuth';
 
-function useFriendRequests(userId: string) {
+function useFriendRequests() {
 
-    const [requests, setRequests] = useState<any[]>([]);
+    const [requests, setRequests] = useState<IRequestResponse[]>([]);
+    const { user } = useAuth();
+
 
     useEffect(() => {
-        const q = query(
-            collection(database, 'friendRequests'),
-            where('receiverId', '==', userId),
-            where('status', '==', FriendRequestStatus.PENDING)
-        );
+        if (user) {
+            const q = query(
+                collection(database, DB_COLLECTIONS.REQUESTS),
+                where('receiverId', '==', user?.uid),
+                where('status', '==', FriendRequestStatus.PENDING)
+            );
 
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const newRequests = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            setRequests(newRequests);
-        });
-        return () => unsubscribe();
-    }, [userId]);
+            const unsubscribe = onSnapshot(q, (snapshot) => {
+                const newRequests = snapshot.docs.map((doc) => (
+                    doc.data() as IRequestResponse
+                ));
+                setRequests(newRequests);
+            });
+            return () => unsubscribe();
+        }
+        return () => [];
+    }, [user]);
 
     return requests;
 
