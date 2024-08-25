@@ -48,4 +48,13 @@ export class RequestDbServices {
             })
         })
     }
+
+    public async handleRequest() {
+        try {
+
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
 }

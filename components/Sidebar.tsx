@@ -57,17 +57,18 @@ export const Sidebar = () => {
                     <span className='text-slate-500 text-sm'>Overview</span>
                 </div>
                 <div className='space-y-3'>
-                    <Link href="/dashboard/add-friend" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition '>
+                    <Link href="/dashboard/add-friend" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition focus:text-blue-500 focus:bg-slate-200'>
                         <span className='border-2 border-slate-100 p-[5px] rounded-[12px]'>
                             <Image src="/user-plus-solid (1).svg" alt='direact-icon' width={24} height={24} className='opacity-65' />
                         </span>
                         Add Friend
                     </Link>
-                    <Link href="/dashboard/requests" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition'>
+                    <Link href="/dashboard/requests" className='w-full flex items-center gap-4 text-md font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-500 p-2 rounded-md transition focus:text-blue-500 focus:bg-slate-200'>
                         <span className='border-2 border-slate-100 p-[5px] rounded-[12px]'>
                             <Image src="/person-circle-question-solid.svg" alt='direact-icon' width={24} height={24} className='opacity-65' />
                         </span>
                         Friend Request
+                        <span className='w-2 h-2 bg-blue-500 rounded-full ms-6'></span>
                     </Link>
                 </div>
             </div>

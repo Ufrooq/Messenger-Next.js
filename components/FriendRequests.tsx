@@ -9,7 +9,6 @@ export const FriendRequests = (props: { requests: IRequestResponse[] }) => {
             {props.requests.map((request: IRequestResponse) => (
                 <Notification senderId={request.senderId} />
             ))}
-
         </div>
     )
 }
