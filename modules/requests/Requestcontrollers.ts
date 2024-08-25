@@ -36,14 +36,24 @@ export class RequestControllers {
         }
     }
 
-    public async handleRequest() {
+    public async handleRequestAccept(requestId: string) {
         try {
-
+            return await RequestDbServices.getInstance().acceptRequest(requestId);
         } catch (error) {
             console.log(error);
             return error;
         }
     }
+    public async handleDeclineAccept(requestId: string) {
+        try {
+            return await RequestDbServices.getInstance().declineRequest(requestId);
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
+
+
 
 
 }

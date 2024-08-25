@@ -8,7 +8,7 @@ import useAuth from './useAuth';
 
 function useFriendRequests() {
 
-    const [requests, setRequests] = useState<IRequestResponse[]>([]);
+    const [requests, setRequests] = useState<any[]>([]);
     const { user } = useAuth();
 
 
@@ -21,9 +21,7 @@ function useFriendRequests() {
             );
 
             const unsubscribe = onSnapshot(q, (snapshot) => {
-                const newRequests = snapshot.docs.map((doc) => (
-                    doc.data() as IRequestResponse
-                ));
+                const newRequests = snapshot.docs.map((doc) => doc);
                 setRequests(newRequests);
             });
             return () => unsubscribe();

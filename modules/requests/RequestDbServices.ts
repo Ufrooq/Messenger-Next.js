@@ -1,6 +1,6 @@
 import { DB_COLLECTIONS, FriendRequestStatus } from "@/config/constants";
 import { database } from "@/config/firebaseConfig";
-import { addDoc, collection, CollectionReference, DocumentData, getDoc, getDocs, onSnapshot, query, QuerySnapshot, Timestamp, where } from "firebase/firestore";
+import { addDoc, collection, CollectionReference, doc, DocumentData, getDoc, getDocs, onSnapshot, query, QuerySnapshot, Timestamp, updateDoc, where } from "firebase/firestore";
 import { UserDbServices } from "../user/UserDbServices";
 
 export class RequestDbServices {
@@ -49,9 +49,25 @@ export class RequestDbServices {
         })
     }
 
-    public async handleRequest() {
+    public async acceptRequest(requestId: string) {
+        const docRef = doc(this.requestCollection, requestId);
         try {
+            return await updateDoc(docRef, {
+                status: FriendRequestStatus.ACCEPTED
+            })
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
 
+
+    public async declineRequest(requestId: string) {
+        const docRef = doc(this.requestCollection, requestId);
+        try {
+            return await updateDoc(docRef, {
+                status: FriendRequestStatus.REJECTED
+            })
         } catch (error) {
             console.log(error);
             return error;

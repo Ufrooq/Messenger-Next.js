@@ -1,13 +1,11 @@
 'use client'
 import { FriendRequests } from '@/components/FriendRequests'
 import useFriendRequests from '@/hooks/useFriendRequests';
-import { RequestControllers } from '@/modules/requests/Requestcontrollers';
-import { IRequestResponse } from '@/types';
 import React from 'react'
 
 const Requests = () => {
-    const requests: IRequestResponse[] | [] = useFriendRequests();
-    console.log(requests);
+    const requests: any = useFriendRequests();
+    // console.log(requests[0]?.id)
     return (
         <div className='w-full flex flex-col mt-8 h-[90vh]'>
             <h1 className='text-5xl font-semibold'>Friend Requests</h1>
