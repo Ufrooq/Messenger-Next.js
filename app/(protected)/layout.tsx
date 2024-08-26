@@ -1,4 +1,5 @@
 "use client"
+import { PageLoader } from '@/components/PageLoader';
 import { Sidebar } from '@/components/Sidebar';
 import useAuth from '@/hooks/useAuth';
 import { redirect } from 'next/navigation';
@@ -20,7 +21,7 @@ const ProtectedLayout = ({
     return (
         <>
             {isLoading ?
-                <p>Loading...</p>
+                <PageLoader />
                 :
                 <div className='w-full h-[100vh] flex gap-4'>
                     <Sidebar />

@@ -1,4 +1,5 @@
 "use client"
+import { PageLoader } from '@/components/PageLoader';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
@@ -18,7 +19,7 @@ const AuthLayout = ({
 
     if (isLoading) {
         return (
-            <h1>Loading.....</h1>
+            <PageLoader />
         )
     }
 
