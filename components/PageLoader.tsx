@@ -3,10 +3,15 @@ import React from 'react'
 export const PageLoader = () => {
     return (
         <div className="text-center w-full h-[100vh] flex justify-center items-center flex-col">
-            <div
-                className="w-20 h-20 border-4 border-dashed rounded-full animate-spin border-blue-600"
-            ></div>
-            <h2 className="text-zinc-500 dark:text-white mt-4 text-sm">Loading...</h2>
+            <div className="flex flex-row gap-2">
+                <div className={`w-[16px] h-[16px] rounded-full bg-blue-500 animate-bounce`}></div>
+                <div
+                    className={`w-[16px] h-[16px] rounded-full bg-blue-700 animate-bounce [animation-delay:-.1s]`}
+                ></div>
+                <div
+                    className={`w-[16px] h-[16px] rounded-full bg-blue-500 animate-bounce [animation-delay:-.4s]`}
+                ></div>
+            </div>
         </div>
 
     )

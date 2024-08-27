@@ -1,4 +1,4 @@
-import { IUserResponse } from "@/types";
+import { IRequestResponse, IUserResponse } from "@/types";
 import { RequestDbServices } from "./RequestDbServices";
 
 export class RequestControllers {
@@ -44,6 +44,7 @@ export class RequestControllers {
             return error;
         }
     }
+
     public async handleDeclineAccept(requestId: string) {
         try {
             return await RequestDbServices.getInstance().declineRequest(requestId);
@@ -52,8 +53,22 @@ export class RequestControllers {
             return error;
         }
     }
-
-
-
+    public async handleFetchAcceptedRequests(currentUserId: string) {
+        try {
+            const combinedResults = await RequestDbServices.getInstance().fetchAcceptedRequests(currentUserId) as IRequestResponse[];
+            const uniqueResults = combinedResults.reduce((acc: any, current: any) => {
+                const x = acc.find((item: any) => item.id === current.id)
+                if (!x) {
+                    return acc.concat([current]);
+                } else {
+                    return acc;
+                }
+            }, [])
+            return uniqueResults || [];
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
 
 }

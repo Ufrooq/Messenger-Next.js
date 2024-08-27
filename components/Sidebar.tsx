@@ -37,6 +37,7 @@ export const Sidebar = () => {
                 </Link>
             </div>
             <Separator className='my-4 h-[0.5px]' />
+            {/* friends list  */}
             <div className='flex flex-col gap-2 mt-4'>
                 <div className='p-2'>
                     <span className='text-slate-500 text-sm'>Your chats</span>
@@ -63,6 +64,8 @@ export const Sidebar = () => {
                     </Link>
                 </div>
             </div>
+
+            {/* profile component  */}
             <Profile
                 user={user}
                 isLoading={isLoading}
