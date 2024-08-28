@@ -16,18 +16,19 @@ const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [passowrd, setPassowrd] = useState('');
-    const [uploadedImage, setUploadedImage] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState(false);
+    const [file, setFile] = useState<File>();
 
 
 
 
     async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+        e.stopPropagation();
         if (!e.target.files || e.target.files.length === 0) return;
         setIsUploading(true);
         try {
-            const uploadedImageUrl = await UserControllers.getInstance().uploadImage(e.target.files[0]);
-            setUploadedImage(uploadedImageUrl);
+            let _uploadedImage = e.target.files[0]
+            setFile(_uploadedImage);
             setIsUploading(false);
         } catch (error) {
             console.log(error)
@@ -47,7 +48,7 @@ const Register = () => {
         const data: IUser = {
             displayName: name,
             email: email,
-            photoURL: uploadedImage,
+            photoURL: "",
             password: passowrd
         }
         setIsLoading(true);
@@ -95,7 +96,7 @@ const Register = () => {
                     </div>
                     <div className="grid gap-2">
                         <div className='flex items-center gap-4'>
-                            {!uploadedImage ?
+                            {!file ?
                                 <>
                                     <Label htmlFor="file-zone" className='p-4 border-2 hover:border-slate-400 rounded-xl w-32 h-28 flex justify-center items-center cursor-pointer transition'>
                                         {!isUploading ?
@@ -112,15 +113,15 @@ const Register = () => {
                                 <div className='w-32 h-28 border-2 border-slate-400 rounded-xl overflow-hidden'>
                                     <img
                                         className='w-full h-full object-cover'
-                                        src={uploadedImage}
+                                        src={URL.createObjectURL(file)}
                                         alt=""
                                     />
                                 </div>
                             }
                             <span className='text-slate-700 text-sm'>
-                                {!isUploading && !uploadedImage && "Upload your Profile image"}
+                                {!isUploading && !file && "Upload your Profile image"}
                                 {isUploading && "Uplaoading...."}
-                                {uploadedImage &&
+                                {file &&
                                     <div className='flex items-center gap-2'>
                                         Uploaded Successfully
                                         <Image src="/check-solid.svg" alt='img' width={20} height={20} />
