@@ -18,4 +18,13 @@ export class FriendsDbServices {
         }
         return this.instance
     }
+
+
+    public async addFriend() {
+        try {
+
+        } catch (error) {
+            return error
+        }
+    }
 }

@@ -39,3 +39,13 @@ export interface IRequestResponse {
     sentAt: Timestamp,
     status: FriendRequestStatus
 }
+
+export interface IFriend {
+    displayName?: string,
+    userId: string,
+    friendId: string,
+}
+
+export interface IFriendResponse {
+
+}

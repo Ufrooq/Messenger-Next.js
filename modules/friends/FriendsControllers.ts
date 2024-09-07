@@ -14,4 +14,12 @@ export class FriendsControllers {
         }
         return this.instance
     }
+
+    // public async handleAddFriend() {
+    //     try {
+    //         await 
+    //     } catch (error) {
+    //         return error
+    //     }
+    // }
 }
