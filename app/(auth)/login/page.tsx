@@ -32,12 +32,21 @@ const Login = () => {
             email: email,
             password: passowrd
         }
-        const response = await UserControllers.getInstance().loginUser(data);
-        if (response?.user) {
+        try {
+            const response = await UserControllers.getInstance().loginUser(data);
+            if (response?.user) {
+                setIsLoading(false);
+                toast.success("Login Successfull");
+                router.push("/dashboard")
+            } else {
+                setIsLoading(false);
+                toast.error("Login Failed")
+            }
+        } catch (error) {
             setIsLoading(false);
-            toast.success("Login Successfull");
-            router.push("/dashboard")
+            toast.error("Login Failed")
         }
+
     }
 
     async function continueWithGoogle() {

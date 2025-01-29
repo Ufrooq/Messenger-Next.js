@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from './ui/button'
 import { RequestControllers } from '@/modules/requests/Requestcontrollers';
 
-export const Notification = (props: { senderId: string; requestId: string }) => {
+export const Notification = (props: { senderName: string; senderEmail: string, requestId: string }) => {
 
     async function handleAccept() {
         RequestControllers.getInstance().handleRequestAccept(props.requestId)
@@ -14,10 +14,10 @@ export const Notification = (props: { senderId: string; requestId: string }) => 
 
     }
     return (
-        <div className='h-[70px] p-4 rounded-xl border border-blue-500 bg-blue-50 flex items-center justify-between'>
+        <div className='p-4 rounded-xl border border-blue-500 bg-blue-50 flex items-start justify-between'>
             <div className='flex items-center gap-4'>
-                < Image src="/bell-solid.svg" alt='direact-icon' width={24} height={24} />
-                <p><span className='font-semibold'>{props.senderId} </span>requested you</p>
+                <Image src="/bell-solid.svg" alt='direact-icon' width={24} height={24} />
+                <p><span className='font-semibold'>{props.senderName} </span>  having email address <span className='font-semibold'>{props.senderEmail}</span> requested you</p>
             </div >
             <div className='flex items-center gap-4'>
                 <Button onClick={handleAccept}>Accept</Button>

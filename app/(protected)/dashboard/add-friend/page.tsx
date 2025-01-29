@@ -19,7 +19,12 @@ const AddFriend = () => {
         setIsAdding(true)
         try {
             if (!user?.uid) return;
-            const response = await RequestControllers.getInstance().sendRequest(currentUserData?.userId!, recieverEmail)
+            const senderData = {
+                senderId: user.uid,
+                senderName: currentUserData?.displayName,
+                senderEmail: user.email
+            }
+            const response = await RequestControllers.getInstance().sendRequest(senderData, recieverEmail)
             if (response) {
                 setRecieverEmail("")
                 toast.success(recieverEmail);

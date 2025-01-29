@@ -29,7 +29,8 @@ export class UserDbServices {
                 userId: userId,
                 displayName: data.displayName,
                 email: data.email,
-                photoURL: data.photoURL
+                photoURL: data.photoURL,
+                friendsList: []
             });
         } catch (error) {
             throw error;
@@ -40,6 +41,7 @@ export class UserDbServices {
         try {
             const q = query(this.userColllection, where('userId', '==', uid));
             const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(q);
+            console.log(querySnapshot.docs[0])
             return querySnapshot.docs[0];
         } catch (error) {
             throw error

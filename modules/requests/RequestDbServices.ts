@@ -23,10 +23,10 @@ export class RequestDbServices {
         return await UserDbServices.getInstance().getReciever(recieverEmail);
     }
 
-    public async sendRequest(senderId: string, receiverId: string) {
+    public async sendRequest(senderData: any, receiverId: string) {
         try {
             return await addDoc(this.requestCollection, {
-                senderId,
+                senderData,
                 receiverId,
                 status: FriendRequestStatus.PENDING,
                 sentAt: Timestamp.now(),
@@ -56,7 +56,6 @@ export class RequestDbServices {
             return await updateDoc(docRef, {
                 status: FriendRequestStatus.ACCEPTED
             })
-
 
         } catch (error) {
             console.log(error);

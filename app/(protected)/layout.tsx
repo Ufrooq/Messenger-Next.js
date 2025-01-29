@@ -16,12 +16,13 @@ const ProtectedLayout = ({
         if (!user && !isLoading) {
             redirect('/login')
         }
-    }, [user])
+    }, [user, isLoading])
 
     return (
         <>
             {isLoading ?
                 <PageLoader />
+                // <h1>sasa</h1>
                 :
                 <div className='w-full h-[100vh] flex gap-4'>
                     <Sidebar />

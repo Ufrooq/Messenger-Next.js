@@ -25,16 +25,17 @@ export class UserControllers {
             const response = await signInWithPopup(auth, googleProvider);
             return response;
         } catch (error) {
-            console.log(error)
+            throw error;
         }
     }
 
     public async loginUser(data: ILoginData) {
         try {
             const response = await signInWithEmailAndPassword(auth, data.email, data.password)
+            console.log(response)
             return response;
         } catch (error) {
-            console.log(error)
+            throw error;
         }
     }
 
