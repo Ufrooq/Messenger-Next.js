@@ -50,3 +50,23 @@ export interface IFriend {
 export interface IFriendResponse {
 
 }
+
+export interface Message {
+    id: string;
+    senderId: string;
+    message: string;
+    timestamp: Date;
+}
+
+export interface ChatRoom {
+    id: string;
+    chatRoomId: string;
+    participants: string[];
+    messages: Message[];
+    createdAt: Date;
+    lastMessage?: {
+        senderId: string;
+        message: string;
+        timestamp: Date;
+    };
+}

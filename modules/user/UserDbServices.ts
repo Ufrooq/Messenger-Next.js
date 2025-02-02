@@ -2,7 +2,7 @@ import { auth, database, fireStorage } from "@/config/firebaseConfig";
 import { addDoc, collection, CollectionReference, DocumentData, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
 import { DB_COLLECTIONS } from "../../config/constants";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, User, UserCredential } from "firebase/auth";
+import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { IUser } from "@/types";
 
 export class UserDbServices {
@@ -41,7 +41,6 @@ export class UserDbServices {
         try {
             const q = query(this.userColllection, where('userId', '==', uid));
             const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(q);
-            console.log(querySnapshot.docs[0])
             return querySnapshot.docs[0];
         } catch (error) {
             throw error
@@ -52,6 +51,19 @@ export class UserDbServices {
         const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(q);
         return querySnapshot.docs[0];
     }
+
+
+    public async checkIfUserExists(email: string) {
+        try {
+            const q = query(this.userColllection, where('email', '==', email));
+            const querySnapshot = await getDocs(q);
+
+            return !querySnapshot.empty;
+        } catch (error) {
+            console.error('Error checking email existence:', error);
+            throw error;
+        }
+    };
 
     public async addImageInDB(image: File, id: string): Promise<string> {
         try {

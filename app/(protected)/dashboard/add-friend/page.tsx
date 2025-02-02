@@ -3,8 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import useAuth from '@/hooks/useAuth';
 import { RequestControllers } from '@/modules/requests/Requestcontrollers';
-import { UserControllers } from '@/modules/user/UserControllers';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import React, { useState } from 'react'
 import { toast } from 'sonner';
 
@@ -16,6 +14,14 @@ const AddFriend = () => {
 
     async function handleSumbit(e: any) {
         e.preventDefault();
+        if (!recieverEmail) {
+            toast.info("Please enter the email of the user you want to add as a friend");
+            return;
+        }
+        if (recieverEmail == user?.email) {
+            toast.info("You can't add yourself as a friend");
+            return;
+        }
         setIsAdding(true)
         try {
             if (!user?.uid) return;
@@ -27,13 +33,12 @@ const AddFriend = () => {
             const response = await RequestControllers.getInstance().sendRequest(senderData, recieverEmail)
             if (response) {
                 setRecieverEmail("")
-                toast.success(recieverEmail);
+                toast.success("Friend request sent !");
             }
             setIsAdding(false);
-        } catch (error) {
+        } catch (error: any) {
             setIsAdding(false)
-            console.log(error)
-            toast.error("Error occured")
+            toast.error(error.message)
         }
     }
     return (

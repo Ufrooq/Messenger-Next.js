@@ -2,7 +2,9 @@ export enum DB_COLLECTIONS {
     USER = 'users',
     MESSAGES = 'messages',
     REQUESTS = 'requests',
-    FRIENDS = 'friends'
+    FRIENDS = 'friends',
+    CHATS = 'chats',
+    CHAT_ROOMS = 'chatRooms'
 }
 
 export enum FriendRequestStatus {

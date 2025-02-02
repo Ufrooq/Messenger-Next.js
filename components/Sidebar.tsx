@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Separator } from './ui/separator'
 import { Avatar, AvatarImage } from './ui/avatar'
 import useAuth from '@/hooks/useAuth'
@@ -10,14 +10,20 @@ import { toast } from 'sonner'
 import { signOut } from 'firebase/auth'
 import { auth } from '@/config/firebaseConfig'
 import { useRouter } from 'next/navigation'
-import { Friends } from './Friends'
+import { Friend } from './Friend'
 import { Profile } from './Profile'
 import { ModeToggle } from './ModeToggle'
+import { FriendsControllers } from '@/modules/friends/FriendsControllers'
+import { Loader2 } from 'lucide-react'
 
 export const Sidebar = () => {
     const { user, isLoading, currentUserData } = useAuth();
     const router = useRouter()
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [isFriendsLoading, setIsFriendsLoading] = useState(false);
+    const [friends, setFriends] = useState<any[]>([]);
+
+
     async function handleLogout() {
         setIsLoggingOut(true);
         try {
@@ -29,6 +35,28 @@ export const Sidebar = () => {
             toast.error("error while loggingout")
         }
     }
+
+
+    const fetchFriends = async (userId: string) => {
+        setIsFriendsLoading(true)
+        try {
+            const _friends: any = await FriendsControllers.getInstance().getFriends(userId);
+            setFriends(_friends);
+        } catch (error) {
+            toast.error("error occured while fetching friends !")
+        }
+        finally {
+            setIsFriendsLoading(false)
+        }
+    }
+
+    useEffect(() => {
+
+        if (!isLoading && user) {
+            fetchFriends(user.uid);
+        }
+    }, [user, isLoading])
+
 
     return (
         <div className='w-[440px] pl-6 pt-6 pe-4  border border-e-slate-200 flex flex-col'>
@@ -44,7 +72,23 @@ export const Sidebar = () => {
                 <div className='p-2'>
                     <span className='text-slate-500 text-sm'>Your chats</span>
                 </div>
-                <Friends />
+                {isLoading || isFriendsLoading ?
+                    <Loader2 className='animate-spin' />
+                    :
+                    <React.Fragment>
+                        {
+                            friends.length > 0 ?
+                                <>
+                                    {friends.map((friend: any) => (
+                                        <Friend friendId={user?.uid == friend.participants[0] ? friend.participants[1] : friend.participants[0]} />
+                                    ))}
+                                </>
+                                :
+                                <p>No friends found !</p>
+                        }
+                    </React.Fragment>
+
+                }
             </div>
             <div className='flex flex-col gap-2 mt-4'>
                 <div className='p-2'>

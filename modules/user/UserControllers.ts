@@ -59,6 +59,11 @@ export class UserControllers {
     }
 
 
+
+    public checkIfUserExists(email: string) {
+        return UserDbServices.getInstance().checkIfUserExists(email);
+    }
+
     public async uploadImage(image: File): Promise<string> {
         try {
             const id = v4();

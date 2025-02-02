@@ -1,6 +1,6 @@
 import { DB_COLLECTIONS, FriendRequestStatus } from "@/config/constants";
 import { database } from "@/config/firebaseConfig";
-import { addDoc, collection, CollectionReference, doc, DocumentData, getDoc, getDocs, onSnapshot, query, QuerySnapshot, Timestamp, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, CollectionReference, doc, DocumentData, getDoc, getDocs, onSnapshot, query, QuerySnapshot, setDoc, Timestamp, updateDoc, where } from "firebase/firestore";
 import { UserDbServices } from "../user/UserDbServices";
 import { IRequestResponse } from "@/types";
 
@@ -19,6 +19,10 @@ export class RequestDbServices {
         return RequestDbServices.instance;
     }
 
+    public async getRequestCollectionInstance() {
+        return this.requestCollection;
+    }
+
     public async getReciever(recieverEmail: string) {
         return await UserDbServices.getInstance().getReciever(recieverEmail);
     }
@@ -33,6 +37,7 @@ export class RequestDbServices {
             })
         } catch (error) {
             console.log(error)
+            return error;
         }
     }
 
@@ -50,13 +55,50 @@ export class RequestDbServices {
         })
     }
 
-    public async acceptRequest(requestId: string) {
+
+    public async createChatRoom(currentUserId: string, otherUserId: string) {
+        const chatRoomId = [currentUserId, otherUserId].sort().join('_');
+        try {
+            await addDoc(collection(database, DB_COLLECTIONS.CHAT_ROOMS), {
+                chatRoomId,
+                participants: [currentUserId, otherUserId],
+                createdAt: new Date(),
+                lastMessage: null
+            })
+            return chatRoomId;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+
+    };
+
+
+    public async initiateChat(currentUserId: string, otherUserId: string) {
+        try {
+            // const chatRoomId = [currentUserId, otherUserId].sort().join('_');
+            // const chatRoomRef = doc(database, DB_COLLECTIONS.CHAT_ROOMS, chatRoomId);
+            // const chatRoom = await getDoc(chatRoomRef);
+            // console.log(chatRoom, "chatroom")
+            // if (!chatRoom.exists()) {
+            const chatRoomId = await this.createChatRoom(currentUserId, otherUserId);
+            // }
+
+            return chatRoomId;
+        } catch (error) {
+            console.error('Error initiating chat:', error);
+            throw error;
+        }
+    };
+    public async acceptRequest(requestId: string, currentUserId: string) {
         const docRef = doc(this.requestCollection, requestId);
         try {
-            return await updateDoc(docRef, {
+            await updateDoc(docRef, {
                 status: FriendRequestStatus.ACCEPTED
-            })
+            });
 
+            const chatRoomId = await this.initiateChat(requestId, currentUserId);
+            return chatRoomId;
         } catch (error) {
             console.log(error);
             return error;

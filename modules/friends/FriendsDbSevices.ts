@@ -1,6 +1,8 @@
-import { DB_COLLECTIONS } from "@/config/constants";
+import { DB_COLLECTIONS, FriendRequestStatus } from "@/config/constants";
 import { database } from "@/config/firebaseConfig";
-import { collection } from "firebase/firestore";
+import { and, collection, getDocs, or, query, where } from "firebase/firestore";
+import { RequestControllers } from "../requests/Requestcontrollers";
+import { ChatsControllers } from "../chats/ChatsControllers";
 
 export class FriendsDbServices {
 
@@ -19,12 +21,25 @@ export class FriendsDbServices {
         return this.instance
     }
 
-
-    public async addFriend() {
+    public async getFriends(currentUserId: string) {
         try {
-
+            const requesteInstance = await ChatsControllers.getInstance().getChatsCollectionInstance();
+            const q = query(requesteInstance,
+                where('participants', 'array-contains', currentUserId)
+            );
+            const querySnapshot = await getDocs(q);
+            const friends = querySnapshot.docs.map((doc) => doc.data());
+            return friends;
         } catch (error) {
-            return error
+            return error;
         }
     }
+
+    // public async addFriend() {
+    //     try {
+
+    //     } catch (error) {
+    //         return error
+    //     }
+    // }
 }

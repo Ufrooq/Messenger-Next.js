@@ -3,10 +3,10 @@ import React from 'react'
 import { Button } from './ui/button'
 import { RequestControllers } from '@/modules/requests/Requestcontrollers';
 
-export const Notification = (props: { senderName: string; senderEmail: string, requestId: string }) => {
+export const Notification = (props: { senderName: string; senderEmail: string, requestId: string, userId: string }) => {
 
     async function handleAccept() {
-        RequestControllers.getInstance().handleRequestAccept(props.requestId)
+        RequestControllers.getInstance().handleRequestAccept(props.requestId, props.userId)
     }
 
     async function handleReject() {

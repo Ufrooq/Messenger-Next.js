@@ -1,5 +1,6 @@
 import { IRequestResponse, IUserResponse } from "@/types";
 import { RequestDbServices } from "./RequestDbServices";
+import { UserControllers } from "../user/UserControllers";
 
 export class RequestControllers {
     private static instance: RequestControllers;
@@ -17,13 +18,21 @@ export class RequestControllers {
         return RequestControllers.instance
     }
 
+    public getRequestCollectionInstance() {
+        return this.requestDbServices.getRequestCollectionInstance();
+    }
+
+
     public async sendRequest(senderData: any, receiverEmail: string) {
         try {
+            const isUserExists = await UserControllers.getInstance().checkIfUserExists(receiverEmail);
+            if (!isUserExists) {
+                throw new Error('User does not exist');
+            }
             const reciever = ((await RequestDbServices.getInstance().getReciever(receiverEmail)).data()) as IUserResponse;
             return this.requestDbServices.sendRequest(senderData, reciever.userId);
-        } catch (error) {
-            console.log(error)
-            return error;
+        } catch (error: any) {
+            throw new Error(error.message);
         }
     }
 
@@ -36,9 +45,9 @@ export class RequestControllers {
         }
     }
 
-    public async handleRequestAccept(requestId: string) {
+    public async handleRequestAccept(requestId: string, currentUserId: string) {
         try {
-            return await RequestDbServices.getInstance().acceptRequest(requestId);
+            return await RequestDbServices.getInstance().acceptRequest(requestId, currentUserId);
         } catch (error) {
             console.log(error);
             return error;

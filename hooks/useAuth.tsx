@@ -20,7 +20,6 @@ function useAuth() {
             } else {
                 try {
                     const currentUser = ((await UserControllers.getInstance().getCurrentUser(user.uid)).data()) as IUserResponse;
-                    console.log(currentUser);
                     setCurrentUserData(currentUser);
                     setUser(user);
                     setIsLoading(false)

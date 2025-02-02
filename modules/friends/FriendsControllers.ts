@@ -15,6 +15,9 @@ export class FriendsControllers {
         return this.instance
     }
 
+    public async getFriends(currentUserId: string) {
+        return this.friendsDbServices.getFriends(currentUserId)
+    }
     // public async handleAddFriend() {
     //     try {
     //         await 
