@@ -20,10 +20,9 @@ export class ChatsControllers {
         return this.chatsDbServices.getChatsCollectionInstance();
     }
 
-
-
     public async sendMessage(chatRoomId: string, senderId: string, message: string) {
         this.chatsDbServices.sendMessage(chatRoomId, senderId, message)
     }
+
 
 }

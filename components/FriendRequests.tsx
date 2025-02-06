@@ -14,6 +14,7 @@ export const FriendRequests = (props: { requests: any[] }) => {
                     userId={user?.uid}
                     senderName={request.data().senderData.senderName}
                     senderEmail={request.data().senderData.senderEmail}
+                    senderId={request.data().senderData.senderId}
                     requestId={request?.id}
                 />
             ))}

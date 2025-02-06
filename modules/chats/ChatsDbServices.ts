@@ -1,10 +1,11 @@
 import { DB_COLLECTIONS } from "@/config/constants";
 import { database } from "@/config/firebaseConfig";
-import { addDoc, collection, doc } from "firebase/firestore";
+import { addDoc, collection, doc, limit, orderBy, query, Timestamp } from "firebase/firestore";
 
 export class ChatsDbServices {
 
     private static instance: ChatsDbServices
+
     private chatsCollection;
     private messagesCollection;
 
@@ -27,13 +28,14 @@ export class ChatsDbServices {
         return this.instance
     }
     public async sendMessage(chatRoomId: string, senderId: string, message: string) {
-        const chatRoomRef = doc(this.chatsCollection, chatRoomId);
-        const messagesCollectionRef = collection(chatRoomRef, DB_COLLECTIONS.MESSAGES);
-        await addDoc(messagesCollectionRef, {
+        await addDoc(this.messagesCollection, {
             senderId,
+            chatRoomId,
             message,
-            timestamp: Date,
+            sentAt: Timestamp.now()
         });
     };
+
+
 
 }

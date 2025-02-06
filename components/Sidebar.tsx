@@ -79,9 +79,15 @@ export const Sidebar = () => {
                         {
                             friends.length > 0 ?
                                 <>
-                                    {friends.map((friend: any) => (
-                                        <Friend friendId={user?.uid == friend.participants[0] ? friend.participants[1] : friend.participants[0]} />
-                                    ))}
+                                    {friends.map((friend: any, key: any) => {
+                                        return (
+                                            <Friend
+                                                key={key}
+                                                friendId={user?.uid == friend.participants[0] ? friend.participants[1] : friend.participants[0]}
+                                                roomId={friend.chatRoomId}
+                                            />
+                                        )
+                                    })}
                                 </>
                                 :
                                 <p>No friends found !</p>

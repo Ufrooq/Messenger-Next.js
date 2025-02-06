@@ -90,14 +90,14 @@ export class RequestDbServices {
             throw error;
         }
     };
-    public async acceptRequest(requestId: string, currentUserId: string) {
+    public async acceptRequest(requestId: string, senderId: string, currentUserId: string) {
         const docRef = doc(this.requestCollection, requestId);
         try {
             await updateDoc(docRef, {
                 status: FriendRequestStatus.ACCEPTED
             });
 
-            const chatRoomId = await this.initiateChat(requestId, currentUserId);
+            const chatRoomId = await this.initiateChat(senderId, currentUserId);
             return chatRoomId;
         } catch (error) {
             console.log(error);

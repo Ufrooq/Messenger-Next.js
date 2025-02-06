@@ -45,9 +45,9 @@ export class RequestControllers {
         }
     }
 
-    public async handleRequestAccept(requestId: string, currentUserId: string) {
+    public async handleRequestAccept(requestId: string, senderId: string, currentUserId: string) {
         try {
-            return await RequestDbServices.getInstance().acceptRequest(requestId, currentUserId);
+            return await RequestDbServices.getInstance().acceptRequest(requestId, senderId, currentUserId);
         } catch (error) {
             console.log(error);
             return error;
