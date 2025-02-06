@@ -61,7 +61,7 @@ export const Sidebar = () => {
     return (
         <div className='w-[440px] pl-6 pt-6 pe-4  border border-e-slate-200 flex flex-col'>
             <div className='max-w-[100px]'>
-                <ModeToggle />
+                {/* <ModeToggle /> */}
                 <Link href='/dashboard'>
                     <Image src="/direct-message.svg" alt='direact-icon' className='rotate-45' width={72} height={72} />
                 </Link>
