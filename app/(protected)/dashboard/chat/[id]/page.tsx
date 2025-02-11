@@ -9,7 +9,7 @@ import { UserControllers } from '@/modules/user/UserControllers'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
-const page = ({ params }: { params: any }) => {
+const Page = ({ params }: { params: any }) => {
 
     const [friendData, setfriendData] = useState<any>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -78,4 +78,4 @@ const page = ({ params }: { params: any }) => {
     )
 }
 
-export default page
+export default Page

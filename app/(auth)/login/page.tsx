@@ -105,7 +105,7 @@ const Login = () => {
                         {isLoading ? <Loader /> : "Login"}
                     </Button>
                     <p className='text-center text-sm'>
-                        Don't have an account? <Link href="/register" className='font-bold'>Register</Link>
+                        Donot have an account? <Link href="/register" className='font-bold'>Register</Link>
                     </p>
                 </form>
             </CardContent>

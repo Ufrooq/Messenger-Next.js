@@ -111,10 +111,10 @@ const Register = () => {
                                 </>
                                 :
                                 <div className='w-32 h-28 border-2 border-slate-400 rounded-xl overflow-hidden'>
-                                    <img
+                                    <Image
+                                        alt='img' width={40} height={40}
                                         className='w-full h-full object-cover'
                                         src={URL.createObjectURL(file)}
-                                        alt=""
                                     />
                                 </div>
                             }
