@@ -31,7 +31,6 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background text-text",
           poppins.className
         )}
       >

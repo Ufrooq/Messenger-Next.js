@@ -1,6 +1,8 @@
 "use client"
+import { AppSidebar } from '@/components/app-sidebar';
+import { ModeToggle } from '@/components/ModeToggle';
 import { PageLoader } from '@/components/PageLoader';
-import { Sidebar } from '@/components/Sidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import useAuth from '@/hooks/useAuth';
 import { redirect } from 'next/navigation';
 import React, { useEffect } from 'react'
@@ -11,7 +13,7 @@ const ProtectedLayout = ({
     children: React.ReactNode;
 }>) => {
 
-    const { user, isLoading } = useAuth()
+    const { user, isLoading } = useAuth();
     useEffect(() => {
         if (!user && !isLoading) {
             redirect('/login')
@@ -19,19 +21,23 @@ const ProtectedLayout = ({
     }, [user, isLoading])
 
     return (
-        <>
+        <React.Fragment>
             {isLoading ?
                 <PageLoader />
-                // <h1>sasa</h1>
                 :
-                <div className='w-full h-[100vh] flex gap-4'>
-                    <Sidebar />
-                    <div className='w-full h-full flex justify-start p-4'>
+                <SidebarProvider>
+                    <AppSidebar />
+                    <SidebarTrigger className='mx-4 mt-2' />
+                    <main className='px-6 w-full relative'>
                         {children}
-                    </div>
-                </div>
+                        <div className='absolute top-4 right-4'>
+                            <ModeToggle />
+                        </div>
+                    </main>
+                </SidebarProvider>
             }
-        </>
+        </React.Fragment>
+
     )
 }
 

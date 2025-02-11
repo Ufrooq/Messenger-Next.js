@@ -21,7 +21,6 @@ export const useFetchMessages = () => {
                     id: doc.id,
                     ...doc.data(),
                 }));
-                console.log(messagesData, "message")
                 setMessages(messagesData);
                 setLoading(false);
             },

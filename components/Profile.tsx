@@ -15,7 +15,7 @@ interface IProfileProps {
 }
 export const Profile: React.FC<IProfileProps> = ({ user, isLoading, currentUserData, isLoggingOut, handleLogout }) => {
     return (
-        <div className="flex min-h-[70px] justify-center items-center space-x-4 rounded-lg px-3 py-2 bg-slate-200 mt-auto mb-4">
+        <div className="flex min-h-[70px] justify-center items-center space-x-4 rounded-[20px] px-3 py-2 bg-slate-100 border border-slate-200 mt-auto mb-4">
             {isLoading || isLoggingOut ?
                 <Loader />
                 :

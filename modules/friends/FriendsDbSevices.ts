@@ -1,8 +1,8 @@
 import { DB_COLLECTIONS, FriendRequestStatus } from "@/config/constants";
 import { database } from "@/config/firebaseConfig";
 import { and, collection, getDocs, or, query, where } from "firebase/firestore";
-import { RequestControllers } from "../requests/Requestcontrollers";
 import { ChatsControllers } from "../chats/ChatsControllers";
+import { UserControllers } from "../user/UserControllers";
 
 export class FriendsDbServices {
 
@@ -28,8 +28,24 @@ export class FriendsDbServices {
                 where('participants', 'array-contains', currentUserId)
             );
             const querySnapshot = await getDocs(q);
-            const friends = querySnapshot.docs.map((doc) => doc.data());
-            return friends;
+            const chatrooms = querySnapshot.docs.map((doc) => doc.data());
+            const getChatData = async () => {
+                const chatData = await Promise.all(chatrooms.map(async (room) => {
+                    const friendId = room.participants[0] === currentUserId
+                        ? room.participants[1]
+                        : room.participants[0];
+
+                    const friendData = (await UserControllers.getInstance().getCurrentUser(friendId)).data();
+                    return {
+                        chatRoomId: room.chatRoomId,
+                        friendData
+                    };
+                }));
+
+                return chatData;
+            };
+            console.log(getChatData())
+            return getChatData();
         } catch (error) {
             return error;
         }
