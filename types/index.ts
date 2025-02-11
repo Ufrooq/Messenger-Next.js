@@ -12,7 +12,7 @@ export interface IUser {
     email: string,
     password: string,
     photoURL: string | null;
-    friendsList: String[]
+    friendsList?: String[]
 }
 export interface IUserResponse {
     id?: string
